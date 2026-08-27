@@ -1,0 +1,43 @@
+TermKeys Proprietary License
+
+Copyright © 2026 BLCCoreStudio
+All rights reserved.
+
+TermKeys is proprietary software developed and maintained by BLCCoreStudio.
+
+Permission is granted to download and use officially published TermKeys
+release binaries for their intended purpose.
+
+No permission is granted to:
+
+- copy or redistribute proprietary TermKeys source code
+- modify or create derivative works from proprietary implementation code
+- reverse engineer, decompile, or disassemble TermKeys except where such
+  restriction is prohibited by applicable law
+- remove or alter copyright, licensing, or ownership notices
+- represent TermKeys or BLCCoreStudio software as your own work
+- redistribute modified TermKeys binaries without written permission
+- use the software or public repository contents to create a misleading
+  or unauthorized derivative distribution
+
+The public GitHub repository may contain selected documentation,
+configuration examples, contribution resources, and other intentionally
+published material.
+
+Public visibility of these files does not make the complete TermKeys
+implementation open source.
+
+Official release binaries may be redistributed only when they remain
+unmodified, retain their original filename and integrity, and clearly
+identify BLCCoreStudio as the publisher, unless BLCCoreStudio provides
+different written permission.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
+
+IN NO EVENT SHALL BLCCORESTUDIO BE LIABLE FOR ANY CLAIM, DAMAGES, OR
+OTHER LIABILITY ARISING FROM THE SOFTWARE OR ITS USE.
+
+For licensing inquiries or permissions beyond these terms, contact
+BLCCoreStudio through the official project channels.

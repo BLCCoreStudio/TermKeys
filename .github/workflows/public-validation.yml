@@ -1,0 +1,116 @@
+name: Public Repository Validation
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-public-export:
+    name: Validate public export
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Validate required files
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          required_files=(
+            "README.md"
+            "LICENSE"
+            "SECURITY.md"
+            "CHANGELOG.md"
+            "CONTRIBUTING.md"
+            "PUBLIC_MANIFEST.txt"
+          )
+
+          for file in "${required_files[@]}"; do
+            if [[ ! -s "$file" ]]; then
+              echo "Required public file is missing or empty: $file"
+              exit 1
+            fi
+          done
+
+      - name: Enforce public whitelist
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          LC_ALL=C sort -u PUBLIC_MANIFEST.txt > /tmp/expected-files.txt
+          git ls-files | LC_ALL=C sort > /tmp/tracked-files.txt
+
+          if ! diff -u /tmp/expected-files.txt /tmp/tracked-files.txt; then
+            echo
+            echo "Public repository contains files outside PUBLIC_MANIFEST.txt."
+            echo "Review the export before publishing additional files."
+            exit 1
+          fi
+
+      - name: Reject sensitive file types
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          sensitive_files="$(
+            find . \
+              -type f \
+              \( \
+                -name '*.pem' \
+                -o -name '*.key' \
+                -o -name '*.p12' \
+                -o -name '*.pfx' \
+                -o -name '*.jks' \
+                -o -name '*.keystore' \
+                -o -name '.env' \
+                -o -name '.env.*' \
+              \) \
+              -not -path './.git/*' \
+              -print
+          )"
+
+          if [[ -n "$sensitive_files" ]]; then
+            echo "Sensitive file type detected:"
+            echo "$sensitive_files"
+            exit 1
+          fi
+
+      - name: Reject private implementation paths
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          forbidden_paths=(
+            "private"
+            "internal"
+            "dist"
+            "build"
+            "tests"
+            "scripts"
+            "src"
+            "pyproject.toml"
+            "uv.lock"
+          )
+
+          for path in "${forbidden_paths[@]}"; do
+            if [[ -e "$path" ]]; then
+              echo "Private or non-public implementation path detected: $path"
+              exit 1
+            fi
+          done
+
+      - name: Public export validated
+        run: |
+          echo "TermKeys public export passed whitelist validation."

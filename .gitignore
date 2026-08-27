@@ -1,0 +1,21 @@
+# Release artifacts
+*.tar.gz
+*.zip
+*.exe
+*.AppImage
+SHA256SUMS.txt
+
+# Secrets / credentials
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+
+# Local/editor files
+.DS_Store
+.idea/
+.vscode/
