@@ -122,7 +122,9 @@ ARCHIVE_NAME="${ARCHIVE_URL##*/}"
 DOWNLOAD_SUFFIX="${ARCHIVE_URL#*'/releases/download/'}"
 TAG_NAME="${DOWNLOAD_SUFFIX%%/*}"
 
-[ -n "$TAG_NAME" ] && [ "$TAG_NAME" != "$ARCHIVE_URL" ] || fail "Could not determine the release tag from GitHub metadata."
+if [ -z "$TAG_NAME" ] || [ "$TAG_NAME" = "$ARCHIVE_URL" ]; then
+    fail "Could not determine the release tag from GitHub metadata."
+fi
 
 CHECKSUM_URL="https://github.com/${REPOSITORY}/releases/download/${TAG_NAME}/SHA256SUMS.txt"
 ARCHIVE_PATH="$TMP_DIR/$ARCHIVE_NAME"
