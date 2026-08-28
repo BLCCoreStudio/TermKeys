@@ -29,11 +29,32 @@ TermKeys is a lightweight Linux CLI tool for managing useful terminal keyboard s
 - Status inspection and `doctor` diagnostics for managed configuration
 - No sudo requirement, telemetry, intentional network communication, or credential storage in `0.1.0`
 
-## Quick Start
+## Install
 
 TermKeys `v0.1.0` is an **alpha / pre-release** for Linux x86_64.
 
-### 1. Download
+### Recommended: inspect the public installer, then run it
+
+The public installer discovers the newest published TermKeys Linux x86_64 release on GitHub, downloads the release archive and its `SHA256SUMS.txt`, verifies the archive before extraction, and installs only the verified `termkeys` binary to `~/.local/bin/termkeys`.
+
+It does **not** use `sudo`, modify TermKeys configuration/backups, or send telemetry. Its network access is limited to GitHub release discovery and release-file downloads.
+
+```bash
+curl -fL https://raw.githubusercontent.com/BLCCoreStudio/TermKeys/main/scripts/install.sh -o termkeys-install.sh
+cat termkeys-install.sh
+sh termkeys-install.sh
+rm termkeys-install.sh
+```
+
+A no-change check is also available:
+
+```bash
+sh scripts/install.sh --dry-run
+```
+
+If `~/.local/bin` is not already in your `PATH`, the installer prints the command needed to add it.
+
+### Manual release download
 
 Download both files from the official release:
 
@@ -42,20 +63,28 @@ Download both files from the official release:
 
 Release page: [TermKeys v0.1.0](https://github.com/BLCCoreStudio/TermKeys/releases/tag/v0.1.0)
 
-### 2. Verify
+Verify before extracting:
 
 ```bash
 sha256sum -c SHA256SUMS.txt
 ```
 
-### 3. Extract
+Then extract:
 
 ```bash
 tar -xzf TermKeys-v0.1.0-linux-x86_64.tar.gz
-cd TermKeys-v0.1.0-linux-x86_64
 ```
 
-The public repository does not document an unverified executable invocation. Use only commands documented by the release package or the program's own help output after extraction.
+### Uninstall the public binary
+
+The public uninstaller removes only `~/.local/bin/termkeys`. It intentionally leaves TermKeys configuration, backups, shell/editor settings, and other user data untouched.
+
+```bash
+curl -fL https://raw.githubusercontent.com/BLCCoreStudio/TermKeys/main/scripts/uninstall.sh -o termkeys-uninstall.sh
+cat termkeys-uninstall.sh
+sh termkeys-uninstall.sh
+rm termkeys-uninstall.sh
+```
 
 ## What the Current Shortcut Does
 
@@ -118,10 +147,12 @@ Additional release security properties for `0.1.0`:
 
 - No sudo requirement
 - No telemetry
-- No intentional network communication
+- No intentional network communication by the installed TermKeys application
 - No credential storage
 - Refuses unsafe configuration overwrites
 - Official release archive accompanied by SHA-256 verification data
+
+The public installer itself only contacts GitHub to discover and download official release files before local installation.
 
 See [SECURITY.md](SECURITY.md) for vulnerability reporting and security scope.
 
@@ -140,6 +171,7 @@ TermKeys uses a proprietary binary distribution model. The complete implementati
 This public repository is the official location for intentionally published TermKeys material, including:
 
 - official releases and release information
+- public installer and uninstaller tooling
 - documentation and changelog history
 - security information and vulnerability-reporting guidance
 - contribution resources
@@ -156,13 +188,13 @@ Private development areas include:
 - release engineering
 - proprietary product logic
 
-Public visibility of this repository does not make the complete TermKeys implementation open source.
+Public visibility of this repository does not make the complete TermKeys implementation open source. The public Shell scripts are limited distribution helpers for the published binary release; they are not the proprietary TermKeys application implementation.
 
-The public repository validation workflow checks required public files, enforces the tracked-file whitelist, rejects sensitive file types, and blocks designated private implementation paths.
+The public repository validation workflow checks required public files, enforces the tracked-file whitelist, rejects sensitive file types, limits `scripts/` to the reviewed public installer/uninstaller, and blocks designated private implementation paths.
 
 ## Contributing
 
-Community contributions may include documentation improvements, typo and wording fixes, English and Turkish translations, usage examples, compatibility reports, bug reports, feature requests, and usability suggestions.
+Community contributions may include documentation improvements, typo and wording fixes, English and Turkish translations, usage examples, compatibility reports, bug reports, feature requests, usability suggestions, and improvements to the public installer/uninstaller tooling.
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
 
