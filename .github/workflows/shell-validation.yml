@@ -1,0 +1,58 @@
+name: Public Shell Validation
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-public-shell:
+    name: Validate public shell scripts
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Install ShellCheck
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y shellcheck
+
+      - name: ShellCheck
+        run: |
+          shellcheck \
+            scripts/install.sh \
+            scripts/uninstall.sh \
+            .github/tests/public-installer-test.sh
+
+      - name: Syntax checks
+        run: |
+          sh -n scripts/install.sh
+          sh -n scripts/uninstall.sh
+          sh -n .github/tests/public-installer-test.sh
+          bash -n scripts/install.sh
+          bash -n scripts/uninstall.sh
+          bash -n .github/tests/public-installer-test.sh
+
+      - name: Safe installer and uninstaller tests
+        run: |
+          sh .github/tests/public-installer-test.sh
+
+      - name: Verify installation from the published release
+        run: |
+          test_home="$RUNNER_TEMP/termkeys-release-install"
+          mkdir -p "$test_home"
+          HOME="$test_home" sh scripts/install.sh
+          test -x "$test_home/.local/bin/termkeys"
+          HOME="$test_home" sh scripts/uninstall.sh
+          test ! -e "$test_home/.local/bin/termkeys"
