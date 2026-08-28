@@ -2,7 +2,7 @@
 
 set -eu
 
-ROOT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")/../.." && pwd)"
+ROOT_DIR="$(CDPATH='' cd "$(dirname "$0")/../.." && pwd)"
 TMP_ROOT="$(mktemp -d "${TMPDIR:-/tmp}/termkeys-public-test.XXXXXX")"
 
 cleanup() {
