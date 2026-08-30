@@ -10,6 +10,7 @@ CONTRIBUTING.md
 .github/tests/public-installer-test.sh
 .github/workflows/auto-label.yml
 .github/workflows/dependabot-auto-merge.yml
+.github/workflows/dependency-review.yml
 .github/workflows/public-validation.yml
 .github/workflows/release-notes.yml
 .github/workflows/shell-validation.yml
