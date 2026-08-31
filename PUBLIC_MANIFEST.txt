@@ -1,4 +1,5 @@
 CHANGELOG.md
+CODE_OF_CONDUCT.md
 CONTRIBUTING.md
 .github/CODEOWNERS
 .github/dependabot.yml
