@@ -40,4 +40,8 @@ HOME="$TEST_HOME" sh "$ROOT_DIR/scripts/uninstall.sh" >/dev/null
 
 HOME="$TEST_HOME" sh "$ROOT_DIR/scripts/uninstall.sh" >/dev/null
 
+[ ! -e "$TEST_HOME/.local/bin/termkeys" ] || fail "Repeated uninstall recreated or retained the TermKeys binary."
+[ -f "$TEST_HOME/.config/termkeys/example.conf" ] || fail "Repeated uninstall removed user configuration."
+[ -f "$TEST_HOME/.local/share/termkeys/backups/example.bak" ] || fail "Repeated uninstall removed user backups."
+
 printf '%s\n' "Public installer/uninstaller safety tests passed."
